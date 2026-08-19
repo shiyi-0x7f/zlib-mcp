@@ -1,5 +1,12 @@
 # zlib-mcp
 
+[![npm](https://img.shields.io/npm/v/zlib-mcp?color=cb3837&logo=npm)](https://www.npmjs.com/package/zlib-mcp)
+[![license](https://img.shields.io/npm/l/zlib-mcp?color=blue)](https://github.com/shiyi-0x7f/zlib-mcp/blob/main/LICENSE)
+[![node](https://img.shields.io/node/v/zlib-mcp)](https://nodejs.org)
+[![Bilibili](https://img.shields.io/badge/Bilibili-%E5%85%B3%E6%B3%A8-00A1D6?logo=bilibili&logoColor=white)](https://space.bilibili.com/19276680)
+![微信公众号](https://img.shields.io/badge/%E5%BE%AE%E4%BF%A1%E5%85%AC%E4%BC%97%E5%8F%B7-%E6%8B%BE%E5%A3%B90x7f-07C160?logo=wechat&logoColor=white)
+[![中文文档](https://img.shields.io/badge/%E6%96%87%E6%A1%A3-%E4%B8%AD%E6%96%87-informational)](https://github.com/shiyi-0x7f/zlib-mcp/blob/main/README.zh-CN.md)
+
 A stdio [MCP](https://modelcontextprotocol.io) server that gives any AI agent tool — Claude Code, Codex CLI, Cursor, Claude Desktop — the ability to **search z-library and download books**.
 
 **Bring your own account.** There is no shared backend, no API key, no proxy: the server runs on your machine, talks straight to z-library, and uses your credentials and your quota.
