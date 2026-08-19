@@ -1,0 +1,58 @@
+{
+  "name": "zlib-mcp",
+  "version": "0.1.0",
+  "description": "stdio MCP server for z-library search & download — bring your own account",
+  "type": "module",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shiyi-0x7f/zlib-mcp.git"
+  },
+  "homepage": "https://github.com/shiyi-0x7f/zlib-mcp#readme",
+  "bugs": {
+    "url": "https://github.com/shiyi-0x7f/zlib-mcp/issues"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "bin": {
+    "zlib-mcp": "dist/index.js"
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "zlibrary",
+    "z-library",
+    "ebook"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "dev": "tsc -p tsconfig.build.json --watch",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint .",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "check": "pnpm format:check && pnpm lint && pnpm typecheck && pnpm test",
+    "prepare": "tsc -p tsconfig.build.json",
+    "prepublishOnly": "pnpm build"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.30.0",
+    "zod": "^3.25.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.0.0",
+    "@types/node": "^22.0.0",
+    "eslint": "^9.0.0",
+    "prettier": "^3.0.0",
+    "typescript": "^5.6.0",
+    "typescript-eslint": "^8.0.0",
+    "vitest": "^2.0.0"
+  }
+}

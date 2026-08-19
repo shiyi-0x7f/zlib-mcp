@@ -1,0 +1,12 @@
+node_modules/
+dist/
+coverage/
+*.log
+.DS_Store
+.env
+.env.*
+!.env.example
+marketing/
+
+# 内部开发文档（PRD / 架构 / 引用项目对接说明）不入公开仓库
+dev_docs/
