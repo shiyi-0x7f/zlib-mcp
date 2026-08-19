@@ -1,9 +1,11 @@
+import { readFileSync } from 'node:fs';
+
 import { Client } from '@modelcontextprotocol/sdk/client/index.js';
 import { InMemoryTransport } from '@modelcontextprotocol/sdk/inMemory.js';
 import { describe, expect, it } from 'vitest';
 
 import { loadConfig } from '../src/config.js';
-import { createServer } from '../src/server.js';
+import { createServer, SERVER_NAME, SERVER_VERSION } from '../src/server.js';
 
 /** 起一个内存里的 client/server 对，验真实的 tools/list 与 tools/call 行为。 */
 async function connect(env: Record<string, string>): Promise<Client> {
@@ -17,6 +19,24 @@ async function connect(env: Record<string, string>): Promise<Client> {
 
 const toolNames = async (client: Client): Promise<string[]> =>
   (await client.listTools()).tools.map((t) => t.name).sort();
+
+describe('server identity', () => {
+  it('reports the version from package.json, not a hardcoded copy', () => {
+    const pkg: unknown = JSON.parse(readFileSync(new URL('../package.json', import.meta.url), 'utf8'));
+    const expected = (pkg as { version: string }).version;
+
+    // 曾经写死过版本号，npm version 一 bump 就对不上，客户端显示的是旧版本。
+    expect(SERVER_VERSION).toBe(expected);
+    expect(SERVER_VERSION).not.toBe('0.0.0-unknown');
+  });
+
+  it('announces that name and version over the protocol', async () => {
+    const client = await connect({ ZLIB_REMIX_ID: '1', ZLIB_REMIX_KEY: 'k' });
+
+    expect(client.getServerVersion()).toMatchObject({ name: SERVER_NAME, version: SERVER_VERSION });
+    await client.close();
+  });
+});
 
 describe('MCP server registration', () => {
   it('exposes four tools when no download directory is configured (PRD 验收 1)', async () => {
