@@ -4,6 +4,7 @@
   "description": "stdio MCP server for z-library search & download — bring your own account",
   "type": "module",
   "license": "MIT",
+  "packageManager": "pnpm@10.22.0",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/shiyi-0x7f/zlib-mcp.git"
