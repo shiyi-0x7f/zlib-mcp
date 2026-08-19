@@ -47,6 +47,31 @@ describe('ZlibraryClient.search', () => {
     expect(body).toContain('yearFrom=2010');
     expect(body).toContain('page=2');
   });
+
+  it('percent-encodes a Chinese query as UTF-8 and declares the charset', async () => {
+    const stub = stubFetch({ body: JSON.stringify({ books: [] }) });
+    await clientWith(stub.fetch).search(CREDENTIALS, { query: '数据密集型应用系统设计' });
+
+    const call = stub.calls[0];
+    const body = (call?.init?.body as URLSearchParams).toString();
+
+    // UTF-8：`数据` = E6 95 B0 / E6 8D AE。若哪天改成手拼字符串或换了编码，这里会立刻红。
+    expect(body).toBe(
+      'message=%E6%95%B0%E6%8D%AE%E5%AF%86%E9%9B%86%E5%9E%8B%E5%BA%94%E7%94%A8%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1',
+    );
+
+    // 光编码对不够：上游要靠 charset 才知道按哪种编码还原这串字节。
+    const headers = call?.init?.headers as Record<string, string>;
+    expect(headers['content-type']).toBe('application/x-www-form-urlencoded; charset=UTF-8');
+  });
+
+  it('UTF-8 encodes non-ASCII language and extension filters too', async () => {
+    const stub = stubFetch({ body: JSON.stringify({ books: [] }) });
+    await clientWith(stub.fetch).search(CREDENTIALS, { query: 'x', languages: ['中文'] });
+
+    const body = (stub.calls[0]?.init?.body as URLSearchParams).toString();
+    expect(body).toContain('languages%5B%5D=%E4%B8%AD%E6%96%87');
+  });
 });
 
 describe('ZlibraryClient error classification (PRD §7)', () => {

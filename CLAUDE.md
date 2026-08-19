@@ -17,6 +17,7 @@
 5. **不在启动时登录**。凭证懒解析，失败表现为可操作的工具错误，不是进程崩溃。
 6. **不注册未授权的能力**。`zlib_download` 只在配了 `ZLIB_DOWNLOAD_DIR` 时才注册。
 7. **测试不打真实上游**。`ZlibraryClient` 与 `streamToDisk` 都接受 `fetchImpl` 注入。
+8. **中文查询必须是 UTF-8 百分号编码，且 `Content-Type` 显式带 `charset=UTF-8`**。请求体一律用 `URLSearchParams` 构造（它本身就按 UTF-8 编码），**禁手拼 query string**；charset 不声明时上游可能按 latin-1 / GBK 还原，中文书名直接搜不到。有测试锁死。
 
 ## 命令
 

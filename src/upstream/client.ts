@@ -169,7 +169,10 @@ export class ZlibraryClient {
 
   #headers(credentials: Credentials | undefined): Record<string, string> {
     const headers: Record<string, string> = {
-      'content-type': 'application/x-www-form-urlencoded',
+      // charset 必须显式声明。中文书名经 URLSearchParams 已是 UTF-8 百分号编码
+      // （`数据` → `%E6%95%B0%E6%8D%AE`），但服务端要靠 charset 才知道该按哪种编码
+      // 还原这串字节；不声明时若上游按 latin-1 / GBK 解，中文查询会变成乱码搜不到东西。
+      'content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
       accept: 'application/json, text/plain, */*',
       'accept-language': 'en-US,en;q=0.9',
       'user-agent': USER_AGENT,

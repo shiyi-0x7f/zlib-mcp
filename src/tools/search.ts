@@ -9,7 +9,12 @@ import { runTool, textResult, type ToolContext } from './context.js';
 const MAX_LIMIT = 50;
 
 export const searchInputSchema = {
-  query: z.string().min(1).describe('Search keywords: book title, author name, or ISBN.'),
+  query: z
+    .string()
+    .min(1)
+    .describe(
+      'Search keywords: book title, author name, or ISBN. Non-Latin scripts are supported — pass a Chinese title verbatim, do not transliterate or translate it.',
+    ),
   extensions: z
     .array(z.string().min(1))
     .optional()
